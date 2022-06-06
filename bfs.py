@@ -18,16 +18,21 @@ def bfs(visited, graph, start, end):
     queue.put(start)
     level[start] = 0
 
-    cur_level = -1
     while queue:
         n = queue.get()
-        cur_level = level[n]
+        
+        # Terminate and return the depth after the end is found
+        if n == end:
+            return level[n]
         
         for neighbour in graph[n]:
             if neighbour not in visited:
-                level[n] = cur_level + 1
                 visited[neighbour] = True
                 queue.put(neighbour)
+                level[neighbour] = level[n] + 1
+    
+        # end could not be found
+        return -1
 
-# Driver Code
+# Call function like this
 bfs(visited, graph, 'A')
