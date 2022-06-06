@@ -7,21 +7,27 @@ graph = {
   'F' : []
 }
 
-visited = [] # List to keep track of visited nodes.
-queue = []     #Initialize a queue
+import queue as que
 
-def bfs(visited, graph, node):
-  visited.append(node)
-  queue.append(node)
+visited = {}            # Dictionary(hashmap) to keep track of visited nodes.
+queue = que.Queue()     #Initialize a queue
+level = {}              # Dictionary(hashmap) to keep track of level
 
-  while queue:
-    s = queue.pop(0) 
-    print (s, end = " ") 
+def bfs(visited, graph, start, end):
+    visited[start] = True
+    queue.put(start)
+    level[start] = 0
 
-    for neighbour in graph[s]:
-      if neighbour not in visited:
-        visited.append(neighbour)
-        queue.append(neighbour)
+    cur_level = -1
+    while queue:
+        n = queue.get()
+        cur_level = level[n]
+        
+        for neighbour in graph[n]:
+            if neighbour not in visited:
+                level[n] = cur_level + 1
+                visited[neighbour] = True
+                queue.put(neighbour)
 
 # Driver Code
 bfs(visited, graph, 'A')
